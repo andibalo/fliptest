@@ -15,8 +15,8 @@ export interface TransactionInfo {
     beneficiaryName: string
     beneficiaryBank: string
     remark: string
-    createdAat: string
-    completedAat: string
+    createdAt: string
+    completedAt: string
     fee: number
 }
 
@@ -37,8 +37,8 @@ const transactionFormatter = (data: any) : TransactionInfo[] => {
             beneficiaryName: responseData[key].beneficiary_name,
             beneficiaryBank: responseData[key].beneficiary_bank,
             remark: responseData[key].remark,
-            createdAat: responseData[key].created_at,
-            completedAat: responseData[key].completed_at,
+            createdAt: responseData[key].created_at,
+            completedAt: responseData[key].completed_at,
             fee: responseData[key].fee
         }
 
