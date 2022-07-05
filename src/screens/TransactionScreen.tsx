@@ -1,10 +1,20 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { CardList } from '../components/CardList';
+import { Spinner } from '../components/common/Spinner';
+import { useFetchTransaction } from '../services';
+
+
 
 export const TransactionScreen = () => {
+    const { isLoading, data, refetch, isRefetching } = useFetchTransaction()
+
+    if (isLoading) {
+        return <Spinner show={isLoading} />
+    }
 
     return (
         <View>
-            <Text>Open up App.tsx to start working on your app!</Text>
+            <CardList data={data} />
         </View>
     )
 }
