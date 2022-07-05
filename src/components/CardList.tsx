@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { TransactionInfo } from "../services";
 import { CardItem } from "./CardItem";
 
@@ -28,7 +28,15 @@ export const CardList = (props: CardListProps) => {
             data={data}
             renderItem={renderTransactionItem}
             keyExtractor={(item, index) => `transaction-${item.id}-${index}`}
+            contentContainerStyle={styles.listContainer}
         />
     )
 
 }
+
+const styles = StyleSheet.create({
+    listContainer: {
+        paddingHorizontal: 8,
+        paddingVertical: 10
+    }
+})
