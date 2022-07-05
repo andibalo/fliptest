@@ -22,22 +22,24 @@ export interface TransactionInfo {
 
 
 const transactionFormatter = (data: any) : TransactionInfo[] => {
+
+    const responseData = data.data
     const transactionData : TransactionInfo[] = []
     
-    Object.keys(data).forEach(key => {
+    Object.keys(responseData).forEach(key => {
         let transactionInfo = {
-            id: data[key].id,
-            amount: data[key].amount,
-            uniqueCode: data[key].unique_code,
-            status: data[key].status,
-            senderBank: data[key].sender_bank,
-            accountNumber: data[key].account_number,
-            beneficiaryName: data[key].beneficiary_name,
-            beneficiaryBank: data[key].beneficiary_bank,
-            remark: data[key].remark,
-            createdAat: data[key].created_at,
-            completedAat: data[key].completed_at,
-            fee: data[key].fee
+            id: responseData[key].id,
+            amount: responseData[key].amount,
+            uniqueCode: responseData[key].unique_code,
+            status: responseData[key].status,
+            senderBank: responseData[key].sender_bank,
+            accountNumber: responseData[key].account_number,
+            beneficiaryName: responseData[key].beneficiary_name,
+            beneficiaryBank: responseData[key].beneficiary_bank,
+            remark: responseData[key].remark,
+            createdAat: responseData[key].created_at,
+            completedAat: responseData[key].completed_at,
+            fee: responseData[key].fee
         }
 
         transactionData.push(transactionInfo)
