@@ -1,32 +1,67 @@
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Pressable } from 'react-native'
 import { colors } from '../theme'
 import { Button } from './common'
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { convertToRupiah } from '../utils/functions';
+import { TRANSACTION_SUCCESS, TRANSACTION_PENDING } from '../utils/constants';
+import { formatDateToDDMMYYY } from '../utils/dates'
 
-export const CardItem = () => {
+interface CardItemProps {
+    senderBank: string
+    beneficiaryBank: string
+    beneficiaryName: string
+    amount: number
+    status: string
+    createdAt: string
+}
+
+interface StatusToTextMapper {
+    [status: string]: string
+}
+
+const mapStatusToText: StatusToTextMapper = {
+    [TRANSACTION_PENDING]: "Berhasil",
+    [TRANSACTION_SUCCESS]: "Pengecekan"
+}
+
+const mapStatusToColor: StatusToTextMapper = {
+    [TRANSACTION_PENDING]: colors.brand[200],
+    [TRANSACTION_SUCCESS]: colors.brand[100]
+}
+
+export const CardItem = (props: CardItemProps) => {
+
+    const { senderBank, beneficiaryBank, beneficiaryName, amount, status, createdAt } = props
+
     return (
-        <View style={styles.cardContainer}>
-            <View style={styles.cardColorIndicator} />
+        <Pressable onPress={() => console.log("test")} style={styles.cardContainer}>
+            <View style={{...styles.cardColorIndicator, backgroundColor: mapStatusToColor[status]}} />
             <View>
                 <View style={styles.bankInfoContainer}>
-                    <Text>Permata</Text>
-                    <AntDesign name="arrowright" size={16} color="black" />
-                    <Text>Permata</Text>
+                    <Text>{senderBank}</Text>
+                    <AntDesign style={styles.iconSpacer} name="arrowright" size={16} color="black" />
+                    <Text>{beneficiaryBank}</Text>
                 </View>
-                <Text>Andi Balo</Text>
-                <Text>RP 10.0.000</Text>
+                <Text>{beneficiaryName}</Text>
+                <View style={styles.bankInfoContainer}>
+                    <Text>Rp{convertToRupiah(String(amount))}</Text>
+                    <MaterialIcons style={styles.iconSpacer} name="circle" size={8} color="black" />
+                    <Text>{formatDateToDDMMYYY(createdAt)}</Text>
+                </View>
             </View>
             <View>
-                <Button onPress={() => null} text="test" />
+                <Button onPress={() => null} text={mapStatusToText[status]} />
             </View>
-        </View>
+        </Pressable>
     )
 }
 
 const styles = StyleSheet.create({
+    iconSpacer: {
+        marginHorizontal: 4
+    },
     cardContainer: {
-        marginVertical: 20,
-        width: "80%",
+        marginVertical: 5,
         position: "relative",
         borderRadius: 5,
         backgroundColor: colors.white[100],
@@ -42,9 +77,9 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         width: "3%",
-        backgroundColor: colors.brand[100]
+        backgroundColor: colors.brand[100],
     },
-    bankInfoContainer:{
+    bankInfoContainer: {
         flexDirection: "row",
         alignItems: "center"
     }
