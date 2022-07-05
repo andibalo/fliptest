@@ -15,16 +15,16 @@ interface CardItemProps {
     createdAt: string
 }
 
-interface StatusToTextMapper {
+interface StatusMapper {
     [status: string]: string
 }
 
-const mapStatusToText: StatusToTextMapper = {
+const mapStatusToText: StatusMapper = {
     [TRANSACTION_PENDING]: "Berhasil",
     [TRANSACTION_SUCCESS]: "Pengecekan"
 }
 
-const mapStatusToColor: StatusToTextMapper = {
+const mapStatusToColor: StatusMapper = {
     [TRANSACTION_PENDING]: colors.brand[200],
     [TRANSACTION_SUCCESS]: colors.brand[100]
 }
