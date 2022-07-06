@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { FlatList, StyleSheet } from "react-native";
 import { TransactionInfo } from "../services";
 import { CardItem } from "./CardItem";
@@ -8,17 +9,20 @@ interface CardListProps {
 
 export const CardList = (props: CardListProps) => {
 
+    const navigation = useNavigation()
+
     const { data } = props
+
+    const onCardPress = (transactionInfo: TransactionInfo) => {
+        navigation.navigate("TransactionDetails", transactionInfo)
+    }
 
     const renderTransactionItem = ({ item }: { item: TransactionInfo }) => {
         return (
             <CardItem
-                senderBank={item.senderBank}
-                beneficiaryBank={item.beneficiaryBank}
-                beneficiaryName={item.beneficiaryName}
-                amount={item.amount}
-                createdAt={item.createdAat}
-                status={item.status} />
+                onPress={onCardPress}
+                transactionInfo={item}
+            />
         );
     }
 

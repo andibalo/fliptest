@@ -5,14 +5,11 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { convertToRupiah } from '../utils/functions';
 import { TRANSACTION_SUCCESS, TRANSACTION_PENDING } from '../utils/constants';
 import { formatDateToDDMMYYY } from '../utils/dates'
+import { TransactionInfo } from '../services';
 
 interface CardItemProps {
-    senderBank: string
-    beneficiaryBank: string
-    beneficiaryName: string
-    amount: number
-    status: string
-    createdAt: string
+    onPress: (transactionInfo: TransactionInfo) => void,
+    transactionInfo: TransactionInfo
 }
 
 interface StatusMapper {
@@ -31,26 +28,26 @@ const mapStatusToColor: StatusMapper = {
 
 export const CardItem = (props: CardItemProps) => {
 
-    const { senderBank, beneficiaryBank, beneficiaryName, amount, status, createdAt } = props
+    const {onPress, transactionInfo } = props
 
     return (
-        <Pressable onPress={() => console.log("test")} style={styles.cardContainer}>
-            <View style={{...styles.cardColorIndicator, backgroundColor: mapStatusToColor[status]}} />
+        <Pressable onPress={() => onPress(transactionInfo)} style={styles.cardContainer}>
+            <View style={{...styles.cardColorIndicator, backgroundColor: mapStatusToColor[transactionInfo.status]}} />
             <View>
                 <View style={styles.bankInfoContainer}>
-                    <Text>{senderBank}</Text>
+                    <Text>{transactionInfo.senderBank}</Text>
                     <AntDesign style={styles.iconSpacer} name="arrowright" size={16} color="black" />
-                    <Text>{beneficiaryBank}</Text>
+                    <Text>{transactionInfo.beneficiaryBank}</Text>
                 </View>
-                <Text>{beneficiaryName}</Text>
+                <Text>{transactionInfo.beneficiaryName}</Text>
                 <View style={styles.bankInfoContainer}>
-                    <Text>Rp{convertToRupiah(String(amount))}</Text>
+                    <Text>Rp{convertToRupiah(String(transactionInfo.amount))}</Text>
                     <MaterialIcons style={styles.iconSpacer} name="circle" size={8} color="black" />
-                    <Text>{formatDateToDDMMYYY(createdAt)}</Text>
+                    <Text>{formatDateToDDMMYYY(transactionInfo.createdAt)}</Text>
                 </View>
             </View>
             <View>
-                <Button onPress={() => null} text={mapStatusToText[status]} />
+                <Button onPress={() => null} text={mapStatusToText[transactionInfo.status]} />
             </View>
         </Pressable>
     )
