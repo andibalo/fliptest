@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 4
     },
     cardContainer: {
-        marginVertical: 5,
+        marginBottom: 10,
         position: "relative",
         borderRadius: 5,
         backgroundColor: colors.white[100],

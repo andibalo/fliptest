@@ -41,6 +41,7 @@ export const CardList = (props: CardListProps) => {
 const styles = StyleSheet.create({
     listContainer: {
         paddingHorizontal: 8,
-        paddingVertical: 10
+        paddingTop: 5,
+        paddingBottom: 75
     }
 })
