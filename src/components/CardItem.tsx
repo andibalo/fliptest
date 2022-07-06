@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text, Pressable } from 'react-native'
 import { colors } from '../theme'
-import { Button } from './common'
+import { Button, ButtonVariants } from './common'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { convertToRupiah } from '../utils/functions';
 import { TRANSACTION_SUCCESS, TRANSACTION_PENDING } from '../utils/constants';
@@ -12,8 +12,16 @@ interface CardItemProps {
     transactionInfo: TransactionInfo
 }
 
+interface MapStatusToBtnVariant {
+    [status: string]: ButtonVariants
+}
 interface StatusMapper {
-    [status: string]: string
+    [status: string]: string 
+}
+
+const mapStatusToBtnVariant: MapStatusToBtnVariant = {
+    [TRANSACTION_PENDING]: "secondary",
+    [TRANSACTION_SUCCESS]: "transparent"
 }
 
 const mapStatusToText: StatusMapper = {
@@ -47,7 +55,7 @@ export const CardItem = (props: CardItemProps) => {
                 </View>
             </View>
             <View>
-                <Button onPress={() => null} text={mapStatusToText[transactionInfo.status]} />
+                <Button onPress={() => null} variant={mapStatusToBtnVariant[transactionInfo.status]} text={mapStatusToText[transactionInfo.status]} />
             </View>
         </Pressable>
     )

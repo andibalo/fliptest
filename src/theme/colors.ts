@@ -10,5 +10,9 @@ export const colors = {
     white: {
         100: "#ffffff",
         200: "#F5F9F8"
+    },
+    black: {
+        100: "#18181b",
+        200: "#27272a"
     }
 }
