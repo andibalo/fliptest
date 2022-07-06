@@ -25,8 +25,8 @@ const mapStatusToBtnVariant: MapStatusToBtnVariant = {
 }
 
 const mapStatusToText: StatusMapper = {
-    [TRANSACTION_PENDING]: "Berhasil",
-    [TRANSACTION_SUCCESS]: "Pengecekan"
+    [TRANSACTION_PENDING]: "Pengecekan",
+    [TRANSACTION_SUCCESS]: "Berhasil"
 }
 
 const mapStatusToColor: StatusMapper = {
