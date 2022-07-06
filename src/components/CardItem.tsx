@@ -21,7 +21,7 @@ interface StatusMapper {
 
 const mapStatusToBtnVariant: MapStatusToBtnVariant = {
     [TRANSACTION_PENDING]: "secondary",
-    [TRANSACTION_SUCCESS]: "transparent"
+    [TRANSACTION_SUCCESS]: "primary"
 }
 
 const mapStatusToText: StatusMapper = {
