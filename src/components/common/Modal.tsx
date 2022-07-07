@@ -33,10 +33,12 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         width: '80%',
+        justifyContent: 'center',
+ 
         backgroundColor: 'white',
         paddingHorizontal: 20,
         paddingVertical: 30,
-        borderRadius: 20,
+        borderRadius: 5,
         elevation: 20,
     },
 });
