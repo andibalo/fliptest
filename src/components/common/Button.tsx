@@ -1,22 +1,29 @@
 import { Pressable, Text, StyleSheet, View } from "react-native"
 import { colors } from "../../theme"
+import { Feather } from '@expo/vector-icons';
 
 export type ButtonVariants = "primary" | "transparent" | "secondary"
 
 interface ButtonProps {
     onPress: () => void
     text: string,
-    variant?: ButtonVariants
+    variant?: ButtonVariants,
+    iconRight?: keyof typeof Feather.glyphMap
 }
 
 export const Button = (props: ButtonProps) => {
 
-    const { onPress, text, variant = "primary" } = props
+    const { onPress, text, variant = "primary", iconRight } = props
 
     if (variant === "transparent") {
         return (
             <Pressable style={[styles.btnContainer, styles.btnTransparent]} onPress={onPress}>
-                <Text style={[styles.btnText, styles.btnTextTransparent]}>{text}</Text>
+                <View style={styles.btnInner}>
+                    <Text style={[styles.btnText, styles.btnTextTransparent]}>{text}</Text>
+                    {
+                        iconRight && <Feather name={iconRight} size={24} color={colors.brand[200]} />
+                    }
+                </View>
             </Pressable>
         )
     }
@@ -37,6 +44,10 @@ export const Button = (props: ButtonProps) => {
 }
 
 const styles = StyleSheet.create({
+    btnInner: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
     btnContainer: {
         alignItems: 'center',
         justifyContent: 'center',
