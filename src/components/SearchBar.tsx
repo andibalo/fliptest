@@ -1,9 +1,12 @@
-import { StyleSheet, TextInput, View } from "react-native"
+import { StyleSheet, Text, TextInput, View } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import Fuse from "fuse.js";
 import { colors } from "../theme";
 import { TransactionInfo } from "../services";
 import { useState } from "react";
+import { Button } from "./common";
+import { useModal } from "../hooks";
+import { SortOptions } from "./SortOptions";
 
 interface SearchBarProps {
     data: TransactionInfo[],
@@ -12,6 +15,9 @@ interface SearchBarProps {
 }
 
 export const SearchBar = (props: SearchBarProps) => {
+
+    const { handleModal } = useModal()
+
     const [input, setInput] = useState<string>("")
 
     const { data, searchOptions, setSearchResult } = props
@@ -20,10 +26,10 @@ export const SearchBar = (props: SearchBarProps) => {
 
     const onSearch = () => {
         const results = fuse.search(input)
-        
+
         if (results.length <= 0) {
             setSearchResult([])
-            return 
+            return
         }
 
         setSearchResult(results.map(result => result.item))
@@ -46,13 +52,20 @@ export const SearchBar = (props: SearchBarProps) => {
                 onChangeText={onChange}
                 onSubmitEditing={onSearch}
             />
+            <View style={styles.btnContainer}>
+                <Button onPress={() => handleModal(<SortOptions/>)} variant="transparent" text="Urutkan" iconRight="chevron-down" />
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create(
     {
+        btnContainer: {
+            flex: 0.3,
+        },
         searchSection: {
+            alignItems: "center",
             flexDirection: 'row',
             backgroundColor: colors.white[100],
             borderRadius: 5,
@@ -67,7 +80,7 @@ const styles = StyleSheet.create(
             padding: 10,
         },
         input: {
-            flex: 0.9,
+            flex: 0.6,
             paddingTop: 10,
             paddingRight: 10,
             paddingBottom: 10,
