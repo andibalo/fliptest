@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CardList } from '../components/CardList';
+import { ErrorMessage } from '../components/common';
 import { Spinner } from '../components/common/Spinner';
 import { SearchBar } from '../components/SearchBar';
 import { TransactionInfo, useFetchTransaction } from '../services';
@@ -8,7 +9,7 @@ import { TRANSACTION_SEARCH_KEYS } from '../utils/constants';
 
 export const TransactionScreen = () => {
     const [searchResults, setSearchResults] = useState<TransactionInfo[]>([])
-    const { isLoading, data = [], refetch, isRefetching } = useFetchTransaction()
+    const { isError, isLoading, data = [], refetch, isRefetching } = useFetchTransaction()
 
     const searchOptions = {
         keys: TRANSACTION_SEARCH_KEYS
@@ -17,6 +18,10 @@ export const TransactionScreen = () => {
 
     if (isLoading) {
         return <Spinner show={isLoading} />
+    }
+
+    if (isError) {
+        return <ErrorMessage onRetry={refetch} />
     }
 
     return (
@@ -30,7 +35,7 @@ export const TransactionScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    screenContainer :{
+    screenContainer: {
         flex: 1
     },
     searchBarContainer: {
