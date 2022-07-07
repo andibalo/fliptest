@@ -4,7 +4,7 @@ import { TransactionInfo } from "../services";
 import { CardItem } from "./CardItem";
 
 interface CardListProps {
-    data: TransactionInfo[] | undefined
+    data: TransactionInfo[]
 }
 
 export const CardList = (props: CardListProps) => {
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     listContainer: {
         paddingHorizontal: 8,
         paddingTop: 5,
-        paddingBottom: 75
+        paddingBottom: 15
     }
 })

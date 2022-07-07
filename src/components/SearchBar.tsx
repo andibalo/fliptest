@@ -1,8 +1,38 @@
 import { StyleSheet, TextInput, View } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
+import Fuse from "fuse.js";
 import { colors } from "../theme";
+import { TransactionInfo } from "../services";
+import { useState } from "react";
 
-export const SearchBar = () => {
+interface SearchBarProps {
+    data: TransactionInfo[],
+    setSearchResult: (result: any) => void;
+    searchOptions: Fuse.IFuseOptions<any>
+}
+
+export const SearchBar = (props: SearchBarProps) => {
+    const [input, setInput] = useState<string>("")
+
+    const { data, searchOptions, setSearchResult } = props
+
+    const fuse = new Fuse(data, searchOptions)
+
+    const onSearch = () => {
+        const results = fuse.search(input)
+        
+        if (results.length <= 0) {
+            setSearchResult([])
+            return 
+        }
+
+        setSearchResult(results.map(result => result.item))
+    }
+
+    const onChange = (text: string) => {
+
+        setInput(text)
+    }
 
     return (
         <View style={styles.searchSection}>
@@ -12,7 +42,9 @@ export const SearchBar = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Cari nama, bank, atau nominal"
-                onChangeText={(searchString) => null}
+                value={input}
+                onChangeText={onChange}
+                onSubmitEditing={onSearch}
             />
         </View>
     )

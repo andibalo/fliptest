@@ -1,28 +1,39 @@
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CardList } from '../components/CardList';
 import { Spinner } from '../components/common/Spinner';
 import { SearchBar } from '../components/SearchBar';
-import { useFetchTransaction } from '../services';
+import { TransactionInfo, useFetchTransaction } from '../services';
+import { TRANSACTION_SEARCH_KEYS } from '../utils/constants';
 
 export const TransactionScreen = () => {
-    const { isLoading, data, refetch, isRefetching } = useFetchTransaction()
+    const [searchResults, setSearchResults] = useState<TransactionInfo[]>([])
+    const { isLoading, data = [], refetch, isRefetching } = useFetchTransaction()
+
+    const searchOptions = {
+        keys: TRANSACTION_SEARCH_KEYS
+    }
+
 
     if (isLoading) {
         return <Spinner show={isLoading} />
     }
 
     return (
-        <View>
+        <View style={styles.screenContainer}>
             <View style={styles.searchBarContainer}>
-                <SearchBar />
+                <SearchBar data={data} searchOptions={searchOptions} setSearchResult={setSearchResults} />
             </View>
-            <CardList data={data} />
+            <CardList data={searchResults.length > 0 ? searchResults : data} />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    searchBarContainer : {
+    screenContainer :{
+        flex: 1
+    },
+    searchBarContainer: {
         paddingHorizontal: 8,
         marginTop: 10,
         marginBottom: 5
