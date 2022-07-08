@@ -15,12 +15,17 @@ export const TransactionScreen = () => {
         keys: TRANSACTION_SEARCH_KEYS
     }
 
+    const onRefresh = () => {
+        refetch()
+        setSearchResults([])
+    }
+
     if (isLoading) {
         return <Spinner show={isLoading} />
     }
 
     if (isError) {
-        return <ErrorMessage onRetry={refetch} />
+        return <ErrorMessage onRetry={onRefresh} />
     }
 
     return (
@@ -28,7 +33,7 @@ export const TransactionScreen = () => {
             <View style={styles.searchBarContainer}>
                 <SearchBar data={data} searchOptions={searchOptions} setSearchResult={setSearchResults} />
             </View>
-            <CardList data={searchResults.length > 0 ? searchResults : data} refetch={refetch} isRefetching={isRefetching} />
+            <CardList data={searchResults.length > 0 ? searchResults : data} refetch={onRefresh} isRefetching={isRefetching} />
         </View>
     )
 }
