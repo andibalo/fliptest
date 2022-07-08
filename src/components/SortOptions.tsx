@@ -1,26 +1,46 @@
 import { View } from "react-native";
 import { RadioButton } from "./common";
 
-
 const radioButtonsData = [
     {
         id: '1',
-        label: 'Apple',
-        value: 'apple',
+        label: 'URUTKAN',
+        value: '',
     },
     {
         id: '2',
-        label: 'Samsung',
-        value: 'samsung',
+        label: 'Nama A-Z',
+        value: 'atoz',
+    },
+    {
+        id: '3',
+        label: 'Nama Z-A',
+        value: 'ztoa',
+    },
+    {
+        id: '4',
+        label: 'Tanggal Terbaru',
+        value: 'newest',
+    },
+    {
+        id: '5',
+        label: 'Tanggal Terlama',
+        value: 'oldest',
     },
 ];
 
-export const SortOptions = () => {
+interface SortOptionsProps {
+    onSortOptionClick : (option: string) => void
+    chosenOption: string
+}
 
+export const SortOptions = (props: SortOptionsProps) => {
+
+    const { chosenOption, onSortOptionClick } = props
 
     return (
         <View>
-            <RadioButton data={radioButtonsData} onSelect={() => null} />
+            <RadioButton selected={chosenOption} options={radioButtonsData} onSelect={onSortOptionClick} />
         </View>
     )
 }

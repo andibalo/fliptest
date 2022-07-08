@@ -4,14 +4,16 @@ import { TransactionInfo } from "../services";
 import { CardItem } from "./CardItem";
 
 interface CardListProps {
-    data: TransactionInfo[]
+    data: TransactionInfo[],
+    refetch: () => void,
+    isRefetching: boolean
 }
 
 export const CardList = (props: CardListProps) => {
 
     const navigation = useNavigation()
 
-    const { data } = props
+    const { data, refetch, isRefetching } = props
 
     const onCardPress = (transactionInfo: TransactionInfo) => {
         navigation.navigate("TransactionDetails", transactionInfo)
@@ -29,6 +31,8 @@ export const CardList = (props: CardListProps) => {
 
     return (
         <FlatList
+            onRefresh={refetch}
+            refreshing={isRefetching}
             data={data}
             renderItem={renderTransactionItem}
             keyExtractor={(item, index) => `transaction-${item.id}-${index}`}

@@ -15,7 +15,6 @@ export const TransactionScreen = () => {
         keys: TRANSACTION_SEARCH_KEYS
     }
 
-
     if (isLoading) {
         return <Spinner show={isLoading} />
     }
@@ -29,7 +28,7 @@ export const TransactionScreen = () => {
             <View style={styles.searchBarContainer}>
                 <SearchBar data={data} searchOptions={searchOptions} setSearchResult={setSearchResults} />
             </View>
-            <CardList data={searchResults.length > 0 ? searchResults : data} />
+            <CardList data={searchResults.length > 0 ? searchResults : data} refetch={refetch} isRefetching={isRefetching} />
         </View>
     )
 }

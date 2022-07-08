@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { colors } from '../../theme';
 import { MaterialIcons } from '@expo/vector-icons';
 
+export interface RadioButtonOptions {
+    id: string
+    label: string
+    value: string
+}
 interface RadioButtonProps {
-    data: any,
+    options: RadioButtonOptions[]
     onSelect: (data: any) => void
+    selected: string
 }
 
 export const RadioButton = (props: RadioButtonProps) => {
-    const { data, onSelect } = props
 
-    const [userOption, setUserOption] = useState(null);
-
-    const selectHandler = (value: any) => {
-        onSelect(value);
-        setUserOption(value);
-    };
+    const { options, onSelect, selected } = props
 
     return (
         <View>
-            {data.map((item: any, index: number) => {
+            {options.map((item: any, index: number) => {
                 return (
                     <Pressable
                         key={item.value + index}
-                        onPress={() => selectHandler(item.value)}
+                        onPress={() => onSelect(item.value)}
                     >
                         <View style={styles.optionRow}>
-                            <MaterialIcons name={item.value === userOption ? "radio-button-on" : "radio-button-off"} size={24} color={colors.brand[200]} />
-                            <Text style={styles.option}> {item.value}</Text>
+                            <MaterialIcons name={item.value === selected ? "radio-button-on" : "radio-button-off"} size={24} color={colors.brand[200]} />
+                            <Text style={styles.option}> {item.label}</Text>
                         </View>
                     </Pressable>
                 );

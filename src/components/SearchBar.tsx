@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { StyleSheet, TextInput, View } from "react-native"
 import { AntDesign } from '@expo/vector-icons';
 import Fuse from "fuse.js";
 import { colors } from "../theme";
@@ -7,18 +7,22 @@ import { useState } from "react";
 import { Button } from "./common";
 import { useModal } from "../hooks";
 import { SortOptions } from "./SortOptions";
+import { A_TO_Z, MOST_RECENT, OLDEST, Z_TO_A } from "../utils/constants";
+import { compareValues } from "../utils/functions";
+import { compareDates } from "../utils/dates";
 
 interface SearchBarProps {
-    data: TransactionInfo[],
+    data: TransactionInfo[]
     setSearchResult: (result: any) => void;
     searchOptions: Fuse.IFuseOptions<any>
 }
 
 export const SearchBar = (props: SearchBarProps) => {
 
-    const { handleModal } = useModal()
+    const { handleModal, closeModal } = useModal()
 
     const [input, setInput] = useState<string>("")
+    const [userOption, setUserOption] = useState<string>("");
 
     const { data, searchOptions, setSearchResult } = props
 
@@ -40,6 +44,38 @@ export const SearchBar = (props: SearchBarProps) => {
         setInput(text)
     }
 
+
+    const onSortOptionClick = (option: string) => {
+        const sortedData = [...data]
+
+        if (option === "") {
+            setSearchResult([])
+            setUserOption("");
+            closeModal()
+            return
+        }
+
+        if (option === A_TO_Z) {
+            sortedData.sort(compareValues('beneficiaryName'))
+        }
+
+        if (option === Z_TO_A) {
+            sortedData.sort(compareValues('beneficiaryName', 'desc'))
+        }
+
+        if (option === MOST_RECENT) {
+            sortedData.sort(compareDates())
+        }
+
+        if (option === OLDEST) {
+            sortedData.sort(compareDates("asc"))
+        }
+
+        setSearchResult(sortedData)
+        setUserOption(option);
+        closeModal()
+    }
+
     return (
         <View style={styles.searchSection}>
             <View style={styles.iconContainer}>
@@ -53,7 +89,7 @@ export const SearchBar = (props: SearchBarProps) => {
                 onSubmitEditing={onSearch}
             />
             <View style={styles.btnContainer}>
-                <Button onPress={() => handleModal(<SortOptions/>)} variant="transparent" text="Urutkan" iconRight="chevron-down" />
+                <Button onPress={() => handleModal(<SortOptions onSortOptionClick={onSortOptionClick} chosenOption={userOption} />)} variant="transparent" text="Urutkan" iconRight="chevron-down" />
             </View>
         </View>
     )
