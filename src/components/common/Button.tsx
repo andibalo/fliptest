@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
     },
     btnText: {
-        color: colors.white[100]
+        color: colors.white[100],
+        fontWeight: "600"
     },
     btnTextSecondary: {
         color: colors.black[100]

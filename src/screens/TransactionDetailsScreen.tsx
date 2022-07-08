@@ -1,15 +1,16 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { TransactionInfo } from '../services';
-import { colors } from '../theme';
+import { colors, fontStyles } from '../theme';
 import { formatDateToDDMMYYY } from '../utils/dates';
 import { convertToRupiah } from '../utils/functions';
-import { Divider } from '../components/common';
+import { Button, Divider } from '../components/common';
 
 
 export const TransactionDetailsScreen = () => {
 
+    const navigation = useNavigation()
     const route = useRoute();
 
     const transactionInfo: TransactionInfo = route.params || {}
@@ -17,43 +18,43 @@ export const TransactionDetailsScreen = () => {
     return (
         <View>
             <View style={styles.container}>
-                <Text>ID TRANSAKSI:#{transactionInfo.id}</Text>
+                <Text style={[fontStyles.bold]} >ID TRANSAKSI:#{transactionInfo.id}</Text>
             </View>
-            <Divider color={colors.muted[100]}/>
+            <Divider color={colors.muted[100]} />
             <View style={[styles.container, styles.infoRow]}>
-                <Text>Detail Transaksi</Text>
-                <Text>Tutup</Text>
+                <Text style={[fontStyles.bold]}>Detail Transaksi</Text>
+                <Button text='Tutup' variant='transparent' onPress={() => navigation.goBack()} />
             </View>
-            <Divider/>
+            <Divider />
             <View style={styles.container}>
                 <View style={styles.bankInfoContainer}>
-                    <Text>{transactionInfo.senderBank}</Text>
-                    <AntDesign style={styles.iconSpacer} name="arrowright" size={16} color="black" />
-                    <Text>{transactionInfo.beneficiaryBank}</Text>
+                    <Text style={[fontStyles.bold, fontStyles.heading2, fontStyles.uppercase]}>{transactionInfo.senderBank}</Text>
+                    <AntDesign style={styles.iconSpacer} name="arrowright" size={22} color="black" />
+                    <Text style={[fontStyles.bold, fontStyles.heading2, fontStyles.uppercase]}>{transactionInfo.beneficiaryBank}</Text>
                 </View>
                 <View style={[styles.infoRow, styles.infoRowDetail]}>
                     <View style={styles.infoCol}>
-                        <Text>{transactionInfo.beneficiaryName}</Text>
+                        <Text style={[fontStyles.bold, fontStyles.uppercase]}>{transactionInfo.beneficiaryName}</Text>
                         <Text>{transactionInfo.accountNumber}</Text>
                     </View>
-                    <View style={[styles.infoCol,styles.infoRightCol]}>
-                        <Text>Nominal</Text>
+                    <View style={[styles.infoCol, styles.infoRightCol]}>
+                        <Text style={[fontStyles.bold, fontStyles.uppercase]}>Nominal</Text>
                         <Text>Rp{convertToRupiah(String(transactionInfo.amount))}</Text>
                     </View>
                 </View>
                 <View style={[styles.infoRow, styles.infoRowDetail]}>
                     <View style={styles.infoCol}>
-                        <Text>Berita Transfer</Text>
+                        <Text style={[fontStyles.bold, fontStyles.uppercase]}>Berita Transfer</Text>
                         <Text>{transactionInfo.remark}</Text>
                     </View>
-                    <View style={[styles.infoCol,styles.infoRightCol]}>
-                        <Text>Kode Unik</Text>
+                    <View style={[styles.infoCol, styles.infoRightCol]}>
+                        <Text style={[fontStyles.bold, fontStyles.uppercase]}>Kode Unik</Text>
                         <Text>{transactionInfo.uniqueCode}</Text>
                     </View>
                 </View>
                 <View style={[styles.infoRow]}>
                     <View style={styles.infoCol}>
-                        <Text>Waktu Dibuat</Text>
+                        <Text style={[fontStyles.bold,  fontStyles.uppercase]}>Waktu Dibuat</Text>
                         <Text>{formatDateToDDMMYYY(transactionInfo.createdAt)}</Text>
                     </View>
                 </View>
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     infoCol: {
-       flex: 0.6
+        flex: 0.6
     },
     infoRightCol: {
         flex: 0.4

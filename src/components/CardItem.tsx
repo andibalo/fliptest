@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text, Pressable } from 'react-native'
-import { colors } from '../theme'
+import { colors, fontStyles } from '../theme'
 import { Button, ButtonVariants } from './common'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { convertToRupiah } from '../utils/functions';
@@ -16,7 +16,7 @@ interface MapStatusToBtnVariant {
     [status: string]: ButtonVariants
 }
 interface StatusMapper {
-    [status: string]: string 
+    [status: string]: string
 }
 
 const mapStatusToBtnVariant: MapStatusToBtnVariant = {
@@ -36,18 +36,18 @@ const mapStatusToColor: StatusMapper = {
 
 export const CardItem = (props: CardItemProps) => {
 
-    const {onPress, transactionInfo } = props
+    const { onPress, transactionInfo } = props
 
     return (
         <Pressable onPress={() => onPress(transactionInfo)} style={styles.cardContainer}>
-            <View style={{...styles.cardColorIndicator, backgroundColor: mapStatusToColor[transactionInfo.status]}} />
+            <View style={{ ...styles.cardColorIndicator, backgroundColor: mapStatusToColor[transactionInfo.status] }} />
             <View>
                 <View style={styles.bankInfoContainer}>
-                    <Text>{transactionInfo.senderBank}</Text>
+                    <Text style={[fontStyles.heading3, fontStyles.bold, fontStyles.uppercase]}>{transactionInfo.senderBank}</Text>
                     <AntDesign style={styles.iconSpacer} name="arrowright" size={16} color="black" />
-                    <Text>{transactionInfo.beneficiaryBank}</Text>
+                    <Text style={[fontStyles.heading3, fontStyles.bold, fontStyles.uppercase]}>{transactionInfo.beneficiaryBank}</Text>
                 </View>
-                <Text>{transactionInfo.beneficiaryName}</Text>
+                <Text style={[fontStyles.heading4,fontStyles.uppercase]}>{transactionInfo.beneficiaryName}</Text>
                 <View style={styles.bankInfoContainer}>
                     <Text>Rp{convertToRupiah(String(transactionInfo.amount))}</Text>
                     <MaterialIcons style={styles.iconSpacer} name="circle" size={8} color="black" />
