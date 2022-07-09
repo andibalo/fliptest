@@ -74,7 +74,6 @@ export const SearchBar = (props: SearchBarProps) => {
             sortedData.sort(compareDates("asc"))
         }
 
-        console.log(option, "OPTION")
         setSearchResult(sortedData)
         setSortOption(option);
         closeModal()

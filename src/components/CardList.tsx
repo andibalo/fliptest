@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { memo } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { TransactionInfo } from "../services";
 import { CardItem } from "./CardItem";
@@ -9,7 +10,7 @@ interface CardListProps {
     isRefetching: boolean
 }
 
-export const CardList = (props: CardListProps) => {
+const UnMemoizedCardList = (props: CardListProps) => {
 
     const navigation = useNavigation()
 
@@ -41,6 +42,12 @@ export const CardList = (props: CardListProps) => {
     )
 
 }
+
+export const CardList = memo(UnMemoizedCardList, (prevProps, nextProps) => {
+
+    return JSON.stringify(prevProps.data) === JSON.stringify(nextProps.data)
+})
+
 
 const styles = StyleSheet.create({
     listContainer: {
