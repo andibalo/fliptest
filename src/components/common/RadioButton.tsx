@@ -3,15 +3,15 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { colors } from '../../theme';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export interface RadioButtonOptions {
+export interface RadioButtonOption {
     id: string
     label: string
     value: string
 }
 interface RadioButtonProps {
-    options: RadioButtonOptions[]
-    onSelect: (data: any) => void
-    selected: string
+    options: RadioButtonOption[]
+    onSelect: (data: RadioButtonOption) => void
+    selected:  RadioButtonOption
 }
 
 export const RadioButton = (props: RadioButtonProps) => {
@@ -24,10 +24,10 @@ export const RadioButton = (props: RadioButtonProps) => {
                 return (
                     <Pressable
                         key={item.value + index}
-                        onPress={() => onSelect(item.value)}
+                        onPress={() => onSelect(item)}
                     >
                         <View style={styles.optionRow}>
-                            <MaterialIcons name={item.value === selected ? "radio-button-on" : "radio-button-off"} size={24} color={colors.brand[200]} />
+                            <MaterialIcons name={item.value === selected.value  ? "radio-button-on" : "radio-button-off"} size={24} color={colors.brand[200]} />
                             <Text style={styles.option}> {item.label}</Text>
                         </View>
                     </Pressable>

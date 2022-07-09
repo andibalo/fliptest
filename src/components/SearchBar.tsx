@@ -4,17 +4,20 @@ import Fuse from "fuse.js";
 import { colors } from "../theme";
 import { TransactionInfo } from "../services";
 import { useState } from "react";
-import { Button } from "./common";
+import { Button, RadioButtonOption } from "./common";
 import { useModal } from "../hooks";
 import { SortOptions } from "./SortOptions";
-import { A_TO_Z, MOST_RECENT, OLDEST, Z_TO_A } from "../utils/constants";
+import { A_TO_Z, defaultSortOption, MOST_RECENT, OLDEST, Z_TO_A } from "../utils/constants";
 import { compareValues } from "../utils/functions";
 import { compareDates } from "../utils/dates";
 
 interface SearchBarProps {
+    searchResults: TransactionInfo[]
     data: TransactionInfo[]
     setSearchResult: (result: any) => void;
     searchOptions: Fuse.IFuseOptions<any>
+    sortOption: RadioButtonOption
+    setSortOption: (data: RadioButtonOption) => void
 }
 
 export const SearchBar = (props: SearchBarProps) => {
@@ -22,9 +25,8 @@ export const SearchBar = (props: SearchBarProps) => {
     const { handleModal, closeModal } = useModal()
 
     const [input, setInput] = useState<string>("")
-    const [userOption, setUserOption] = useState<string>("");
 
-    const { data, searchOptions, setSearchResult } = props
+    const { data, searchOptions, setSearchResult, searchResults, setSortOption, sortOption } = props
 
     const fuse = new Fuse(data, searchOptions)
 
@@ -37,6 +39,7 @@ export const SearchBar = (props: SearchBarProps) => {
         }
 
         setSearchResult(results.map(result => result.item))
+        setSortOption(defaultSortOption)
     }
 
     const onChange = (text: string) => {
@@ -45,34 +48,35 @@ export const SearchBar = (props: SearchBarProps) => {
     }
 
 
-    const onSortOptionClick = (option: string) => {
-        const sortedData = [...data]
+    const onSortOptionClick = (option: RadioButtonOption) => {
+        const sortedData = searchResults.length > 0 ? [...searchResults] : [...data]
 
-        if (option === "") {
+        if (option.value === "") {
             setSearchResult([])
-            setUserOption("");
+            setSortOption(defaultSortOption);
             closeModal()
             return
         }
 
-        if (option === A_TO_Z) {
+        if (option.value === A_TO_Z) {
             sortedData.sort(compareValues('beneficiaryName'))
         }
 
-        if (option === Z_TO_A) {
+        if (option.value === Z_TO_A) {
             sortedData.sort(compareValues('beneficiaryName', 'desc'))
         }
 
-        if (option === MOST_RECENT) {
+        if (option.value === MOST_RECENT) {
             sortedData.sort(compareDates())
         }
 
-        if (option === OLDEST) {
+        if (option.value === OLDEST) {
             sortedData.sort(compareDates("asc"))
         }
 
+        console.log(option, "OPTION")
         setSearchResult(sortedData)
-        setUserOption(option);
+        setSortOption(option);
         closeModal()
     }
 
@@ -89,7 +93,7 @@ export const SearchBar = (props: SearchBarProps) => {
                 onSubmitEditing={onSearch}
             />
             <View style={styles.btnContainer}>
-                <Button onPress={() => handleModal(<SortOptions onSortOptionClick={onSortOptionClick} chosenOption={userOption} />)} variant="transparent" text="Urutkan" iconRight="chevron-down" />
+                <Button onPress={() => handleModal(<SortOptions onSortOptionClick={onSortOptionClick} chosenOption={sortOption} />)} variant="transparent" text={sortOption.label} iconRight="chevron-down" />
             </View>
         </View>
     )

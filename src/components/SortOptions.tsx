@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import { RadioButton } from "./common";
+import { RadioButton, RadioButtonOption } from "./common";
 
-const radioButtonsData = [
+const radioButtonsData: RadioButtonOption[] = [
     {
         id: '1',
         label: 'URUTKAN',
@@ -30,8 +30,8 @@ const radioButtonsData = [
 ];
 
 interface SortOptionsProps {
-    onSortOptionClick : (option: string) => void
-    chosenOption: string
+    onSortOptionClick: (option: RadioButtonOption) => void
+    chosenOption: RadioButtonOption
 }
 
 export const SortOptions = (props: SortOptionsProps) => {

@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CardList } from '../components/CardList';
-import { ErrorMessage } from '../components/common';
+import { ErrorMessage, RadioButtonOption } from '../components/common';
 import { Spinner } from '../components/common/Spinner';
 import { SearchBar } from '../components/SearchBar';
 import { TransactionInfo, useFetchTransaction } from '../services';
-import { TRANSACTION_SEARCH_KEYS } from '../utils/constants';
+import { defaultSortOption, TRANSACTION_SEARCH_KEYS } from '../utils/constants';
 
 export const TransactionScreen = () => {
     const [searchResults, setSearchResults] = useState<TransactionInfo[]>([])
+    const [sortOption, setSortOption] = useState<RadioButtonOption>(defaultSortOption);
+
     const { isError, isLoading, data = [], refetch, isRefetching } = useFetchTransaction()
 
     const searchOptions = {
@@ -18,6 +20,7 @@ export const TransactionScreen = () => {
     const onRefresh = () => {
         refetch()
         setSearchResults([])
+        setSortOption(defaultSortOption)
     }
 
     if (isLoading) {
@@ -31,7 +34,13 @@ export const TransactionScreen = () => {
     return (
         <View style={styles.screenContainer}>
             <View style={styles.searchBarContainer}>
-                <SearchBar data={data} searchOptions={searchOptions} setSearchResult={setSearchResults} />
+                <SearchBar
+                    sortOption={sortOption}
+                    setSortOption={setSortOption}
+                    searchResults={searchResults}
+                    data={data}
+                    searchOptions={searchOptions}
+                    setSearchResult={setSearchResults} />
             </View>
             <CardList data={searchResults.length > 0 ? searchResults : data} refetch={onRefresh} isRefetching={isRefetching} />
         </View>
