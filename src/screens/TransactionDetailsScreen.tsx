@@ -6,7 +6,7 @@ import { colors, fontStyles } from '../theme';
 import { formatDateToDDMMYYY } from '../utils/dates';
 import { convertToRupiah } from '../utils/functions';
 import { Button, Divider } from '../components/common';
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 export const TransactionDetailsScreen = () => {
 
@@ -18,7 +18,10 @@ export const TransactionDetailsScreen = () => {
     return (
         <View>
             <View style={styles.container}>
-                <Text style={[fontStyles.bold]} >ID TRANSAKSI:#{transactionInfo.id}</Text>
+                <View style={styles.idRow}>
+                    <Text style={[fontStyles.bold]} >ID TRANSAKSI:#{transactionInfo.id}</Text>
+                    <MaterialIcons style={styles.icon} name="content-copy" size={18} color={colors.brand[200]} />
+                </View>
             </View>
             <Divider color={colors.muted[100]} />
             <View style={[styles.container, styles.infoRow]}>
@@ -54,7 +57,7 @@ export const TransactionDetailsScreen = () => {
                 </View>
                 <View style={[styles.infoRow]}>
                     <View style={styles.infoCol}>
-                        <Text style={[fontStyles.bold,  fontStyles.uppercase]}>Waktu Dibuat</Text>
+                        <Text style={[fontStyles.bold, fontStyles.uppercase]}>Waktu Dibuat</Text>
                         <Text>{formatDateToDDMMYYY(transactionInfo.createdAt)}</Text>
                     </View>
                 </View>
@@ -66,6 +69,13 @@ export const TransactionDetailsScreen = () => {
 const styles = StyleSheet.create({
     iconSpacer: {
         marginHorizontal: 4
+    },
+    idRow: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    icon: {
+        marginLeft: 8
     },
     bankInfoContainer: {
         flexDirection: "row",
